@@ -5,4 +5,3 @@ describe('My Test Suite', () => {
       expect(browser).toHaveTitle('Example Domain');
     });
   });
-  
