@@ -84,8 +84,6 @@ describe('Basic Test', () => {
                 console.error('Error making API request:');
             }
         }
-
-        console.log('END');
         printDataTable();
 
         function printDataTable() {
