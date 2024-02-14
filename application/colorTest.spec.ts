@@ -36,11 +36,22 @@ describe('Basic Test', () => {
 
             await browser.pause(3000);
 
-            const gridElements = await browser.$$('.grid.x2#grid .main');
+            let boxes = await browser.$$('.stage #grid div');
+
+            await getAllBoxesValue(boxes);
 
            
         } finally {
             await browser.deleteSession();
         }
+
+        async function getAllBoxesValue(boxes: WebdriverIO.ElementArray) {
+            for (let i = 0; i < boxes.length; i++) {
+              console.log(`Box length is : `+ boxes.length);
+                const boxBackgroundColor = await boxes[i].getCSSProperty('background-color');
+                console.log(`Box ${i + 1} Background Color: ${boxBackgroundColor.parsed.hex}`);
+            }
+        }
+        
     });
 });
