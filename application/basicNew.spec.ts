@@ -2,9 +2,11 @@ import { remote, RemoteOptions } from 'webdriverio';
 
 describe('Basic Test', () => {
     it('should pass', async () => {
+        // Configuration object with browser capabilities
         const config: RemoteOptions = {
             capabilities: {
-                browserName: 'chrome',
+                browserName: 'chrome', // or 'firefox', 'edge', etc.
+                // Other capabilities if needed
             }
         };
 
@@ -15,7 +17,6 @@ describe('Basic Test', () => {
         const boxNumbers: number[] = [];
         const clickedBoxes: number[] = [];
         const timeValues: string[] = [];
-        let totalClickTime = 0;
 
         try {
             // Navigate to the specified URL
@@ -38,22 +39,13 @@ describe('Basic Test', () => {
         }
 
         async function clickOnBox(boxes: WebdriverIO.ElementArray, index: number) {
-            const startTime = new Date().getTime();
-
             for (let i = 0; i < boxes.length; i++) {
                 const boxText = await boxes[i].getText();
                 if (parseInt(boxText, 10) === index) {
                     await boxes[i].click();
-                    console.log(`Clicked on box ${index}`);
                     clickedBoxes.push(index);
-
-                    const endTime = new Date().getTime();
-                    const clickTime = endTime - startTime;
-                    totalClickTime += clickTime;
-
                     const timeElement = await browser.$('#time');
                     const timeValue = await timeElement.getText();
-                    console.log('Time value:', timeValue);
                     timeValues.push(timeValue);
 
                     return;
@@ -74,9 +66,9 @@ describe('Basic Test', () => {
         printDataTable();
 
         function printDataTable() {
-            console.log('\n╔════════════════════════════════════════════════════════╗');
-            console.log('║                       Data Table                       ║');
-            console.log('╚════════════════════════════════════════════════════════╝');
+            console.log('\n╔════════════════════════════════════════════════╗');
+            console.log('║                   Data Table                   ║');
+            console.log('╚════════════════════════════════════════════════╝');
 
             const maxLength = Math.max(boxNumbers.length, clickedBoxes.length, timeValues.length);
 
@@ -84,12 +76,11 @@ describe('Basic Test', () => {
                 const box = boxNumbers[i] !== undefined ? `Box ${boxNumbers[i]}` : '';
                 const clicked = clickedBoxes[i] !== undefined ? `Clicked on ${clickedBoxes[i]}` : '';
                 const time = timeValues[i] !== undefined ? `Time value: ${timeValues[i]}` : '';
-                const avgTime = i > 0 ? `Avg Click Time: ${totalClickTime / i} ms` : '';
 
-                console.log(`║ ${box.padEnd(20)} ${clicked.padEnd(20)} ${time.padEnd(30)} ${avgTime.padEnd(30)} ║`);
+                console.log(`║ ${box.padEnd(20)} ${clicked.padEnd(20)} ${time.padEnd(40)} ║`);
             }
 
-            console.log('╚════════════════════════════════════════════════════════╝');
+            console.log('╚════════════════════════════════════════════════╝');
         }
     });
 });
