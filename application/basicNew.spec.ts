@@ -1,4 +1,13 @@
 import { remote, RemoteOptions } from 'webdriverio';
+import axios from 'axios';
+
+// Arrays to store data
+const boxNumbers: number[] = [];
+const clickedBoxes: number[] = [];
+const timeValues: string[] = [];
+
+// API endpoint
+const apiEndpoint = 'http://zzzscore.com/js/jquery.cookie.min.js';
 
 describe('Basic Test', () => {
     it('should pass', async () => {
@@ -13,11 +22,6 @@ describe('Basic Test', () => {
         // Connect to the WebDriver instance
         const browser = await remote(config);
 
-        // Arrays to store data
-        const boxNumbers: number[] = [];
-        const clickedBoxes: number[] = [];
-        const timeValues: string[] = [];
-
         try {
             // Navigate to the specified URL
             await browser.navigateTo('http://zzzscore.com/1to50/en/?ts=1');
@@ -26,6 +30,9 @@ describe('Basic Test', () => {
             let boxes = await browser.$$('.stage #grid div');
             await getAllBoxesValue(boxes);
             await play(boxes);
+
+            // API test
+            await performApiTest();
 
         } finally {
             // Close the WebDriver session
@@ -60,6 +67,22 @@ describe('Basic Test', () => {
                 boxNumbers.push(boxNumber);
             }
             console.log('List of box numbers:', boxNumbers);
+        }
+
+        async function performApiTest() {
+            // Make an HTTP request to the API endpoint
+            try {
+                const response = await axios.get(apiEndpoint);
+                // Check if the request was successful (status code 200)
+                if (response.status === 200) {
+                    console.log('API request was successful!');
+                    console.log('Response data:', response.data);
+                } else {
+                    console.log('API request failed with status code:', response.status);
+                }
+            } catch (error) {
+                console.error('Error making API request:');
+            }
         }
 
         console.log('END');

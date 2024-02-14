@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "wdio run ./wdio.conf.ts",
-    "wdio": "wdio run ./wdio.conf.ts"
+    "test": "wdio run ./wdio.conf.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +23,7 @@
   "dependencies": {
     "@wdio/config": "^8.31.1",
     "@wdio/types": "^8.31.1",
+    "axios": "^1.6.7",
     "webdriverio": "^8.31.1"
   }
 }
